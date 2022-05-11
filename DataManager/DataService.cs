@@ -15,6 +15,7 @@ namespace DataManager
         {
             this.provider = provider;
         }
+
         public async Task<string> Proccess()
         {
             var message = await provider.Proccess();
