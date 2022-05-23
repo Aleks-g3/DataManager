@@ -9,19 +9,18 @@ namespace DataManager
 {
     public class DataProvider : IDataOparation
     {
+        static readonly HttpClient client = new HttpClient();
+
         public async Task<string> Proccess()
         {
-            using(HttpClient client = new HttpClient())
+            var response = await client.GetAsync("https://catfact.ninja/fact");
+
+            if (!response.IsSuccessStatusCode)
             {
-                var response = await client.GetAsync("https://catfact.ninja/fact");
-
-                if (!response.IsSuccessStatusCode)
-                {
-                    throw new Exception("Cannot fetching data");
-                }
-
-                return await response.Content.ReadAsStringAsync();
+                throw new Exception("Cannot fetching data");
             }
+
+            return await response.Content.ReadAsStringAsync();
         }
     }
 }
